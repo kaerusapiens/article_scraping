@@ -1,13 +1,24 @@
 
 from pyppeteer import launch
-from pyppeteer.launcher import Launcher
-test = ' '.join(Launcher().cmd)
-print(test)
+
 async def openURL(url:str) -> str:
-    browser = await launch(executablePath='/usr/bin/google-chrome',headless=False,args=['--no-sandbox', '--headless', '--disable-gpu'])
-    page = await browser.newPage()
-    await page.goto(url)
-    htmlContent = await page.content()
-    await browser.close()
-    return htmlContent
+    browser = await launch(executablePath='/usr/bin/google-chrome',
+                           headless=False,
+                           args=['--no-sandbox', '--headless', '--disable-gpu'])
+    try:
+        page = await browser.newPage()
+        response = await page.goto(url)
+        
+        if response.status == 200:
+            htmlContent = await page.content()
+            return htmlContent
+        else:
+            print(f"Error: Received status code {response.status} from {url}")
+        
+    except Exception as e:
+        print(f"Error occurred: {str(e)}")
+    
+    finally:
+        await browser.close()
+
 
