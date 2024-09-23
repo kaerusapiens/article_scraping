@@ -1,27 +1,22 @@
 
 import requests
-from typing import List, Dict
 import logging
 
-def send_to_slack(articles: List[Article]) -> None:
-    message = "📰 PPC News from Search Engine Land:\n"
+def send_to_slack(webhook_key:str,article: dict):
+    if article['category_name'] == "SEO":
+        message = f"📰`{article['category_name']}` "
+    elif article['category_name'] == "PPC":
+        message = f":moneybag:`{article['category_name']}` "
+    else:
+        message = f":paperclip:`{article['category_name']}` "
+    message += f"*<{article['headline_link']}|{article['headline']}>*\n"
+    message += f"```{article['description']}```\n"
+    message += "\n"
     
-    for article in articles:
-        message += f"*Title:* {article['title']}\n"
-        message += f"*Link:* {article['link']}\n"
-        message += f"*Content:* {article['content']}\n\n"
-    
-    response = requests.post(SLACK_WEBHOOK_URL, json={'text': message})
-    
+    response = requests.post(webhook_key, json={'text': message})
+    logging.info(f"Status code: {response.status_code}")
     if response.status_code != 200:
         logging.error(f"Failed to send to Slack: {response.text}")
     else:
         logging.info("Message sent to Slack successfully.")
 
-# Main function to run the scraper and send data to Slack
-async def main() -> None:
-    try:
-        articles = await scrape_ppc_news()
-        send_to_slack(articles)
-    except Exception as e:
-        logging.info(e)

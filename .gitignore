@@ -3,4 +3,6 @@ test/*
 !test/.gitkeep
 temp/*
 !temp/README.md
+log/*
+!log/.gitkeep
 __pycache__/
