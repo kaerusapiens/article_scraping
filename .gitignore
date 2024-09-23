@@ -1,4 +1,6 @@
 config.toml
 test/*
 !test/.gitkeep
+temp/*
+!temp/README.md
 __pycache__/

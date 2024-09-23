@@ -1,0 +1,2 @@
+# temp directory
+debugの目的でpupetterで一回ダウンロードされたhtmlを保存する場所
