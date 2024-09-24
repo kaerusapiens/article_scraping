@@ -17,7 +17,6 @@ logging.basicConfig(level=log_level,
 #------------#
 #スラック通知条件
 #------------#
-
 def get_latest_article(articles):
     for article in articles:
         article['parsed_time'] = date_parser.parse_datetime(article['time'])
@@ -31,10 +30,8 @@ def get_latest_article(articles):
 #------------#
 
 def main():
-    
     #html取得
     asyncio.get_event_loop().run_until_complete(scraper.openURL(config['scrape']['target_url']))
-
 
     #html解析
     articles = html_parser.phraser("temp/temp_page.html")

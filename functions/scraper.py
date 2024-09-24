@@ -1,11 +1,8 @@
-
 from pyppeteer import launch
 import logging
 
 async def openURL(url:str) -> str:
-    browser = await launch(executablePath='/usr/bin/google-chrome',
-                           headless=False,
-                           args=['--no-sandbox', '--headless', '--disable-gpu'])
+    browser = await launch(options={'args': ['--no-sandbox']})
     logging.info(f"Opening URL: {url}")
     try:
         page = await browser.newPage()
@@ -27,5 +24,3 @@ async def openURL(url:str) -> str:
     finally:
         await browser.close()
         logging.info("Browser closed.")
-
-

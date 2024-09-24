@@ -9,5 +9,4 @@ services:
       - "8000:8000"
     tty: true
     stdin_open: true
-    command: tail -f /dev/null
-    # python main.py
+    command: python main.py
