@@ -1,8 +1,13 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - .:/app 
+      - .:/app
     ports:
-      - "5000:5000"
-    command: python main.py
+      - "8000:8000"
+    tty: true
+    stdin_open: true
+    command: tail -f /dev/null
+    # python main.py
