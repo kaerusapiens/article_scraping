@@ -2,9 +2,6 @@ name: Docker Container配布
 on:
   # mainへのPush時、または手動でワークフローを実行する
   workflow_dispatch:
-#  push:
-#    branches: [main]
-
 
 jobs:
   job_id:
@@ -21,18 +18,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      #github action認証
+      # GitHub Action Authentication
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_ID}}
-          service_account: ${{ secrets.SERVICE_ACCOUNT}} 
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_ID }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
       - run: echo "🔒 google-github-actions/auth@v2 was successful"
-
 
       - name: Set up GCP Docker credential helper
         run: |
@@ -42,13 +35,11 @@ jobs:
         run: |
           gcloud auth configure-docker asia-docker.pkg.dev
 
-    
       - name: Build
         run: |
-          docker buildx build -t asia-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
-  
-      
+          docker build -t asia-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+
       - name: Push
         run: |
           docker push asia-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-      - run: echo "🐋 GCP Cloud container upload successful"    
+      - run: echo "🐋 GCP Cloud container upload successful"
