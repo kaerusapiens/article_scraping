@@ -28,9 +28,9 @@ jobs:
       - run: echo "🔒 google-github-actions/auth@v2 was successful"
 
       - name: Check working directory
-       run: |
-        pwd
-        ls -la
+        run: |
+          pwd
+          ls -la
 
       - name: Check Docker version
         run: docker --version
