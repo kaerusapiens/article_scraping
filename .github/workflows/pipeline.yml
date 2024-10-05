@@ -14,7 +14,6 @@ jobs:
       contents: read
 
     env:
-      PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
       IMAGE_NAME: article_scraping
       IMAGE_TAG: v1:0
 
@@ -31,11 +30,18 @@ jobs:
         with:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_ID}}
           service_account: ${{ secrets.SERVICE_ACCOUNT}} 
-    
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      - run: echo "🔒 google-github-actions/auth@v2 was successful"
+
       - name: Set up GCP Docker credential helper
         run: |
           gcloud auth configure-docker --project=${{ secrets.GCP_PROJECT_ID }}
 
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose version
 
       - name: Build Docker image with Docker Compose
         run: |
