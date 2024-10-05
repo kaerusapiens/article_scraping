@@ -35,7 +35,7 @@ jobs:
       - name: Check Docker version
         run: docker --version
 
-      - name: Set up GCP Docker credential helper
+      - name: Set up GCP Docker credential helpergi
         run: |
           gcloud auth configure-docker --project=${{ secrets.GCP_PROJECT_ID }}
 
