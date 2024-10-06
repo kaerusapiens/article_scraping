@@ -46,8 +46,8 @@ jobs:
       - name: Configure docker for artifact registry
         run: |
           gcloud auth configure-docker asia-northeast1-docker.pkg.dev
-          - name: Build Docker Image
-          run: |
+      - name: Build Docker Image
+        run: |
             echo "Building Docker image"
             docker build -t asia-northeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .    
       - name: Push Docker Image to Artifact Registry
