@@ -6,3 +6,4 @@ temp/*
 log/*
 !log/.gitkeep
 __pycache__/
+docker-compose.yml
