@@ -3,7 +3,7 @@ on:
   # mainへのPush時、または手動でワークフローを実行する
   push:
     branches:
-      - feature/new
+      - feature/test
   workflow_dispatch:
 
 jobs:
@@ -46,10 +46,12 @@ jobs:
       - name: Configure docker for artifact registry
         run: |
           gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+
       - name: Build Docker Image
         run: |
-            echo "Building Docker image"
-            docker build -t asia-northeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .    
+          echo "Building Docker image"
+          docker build -t asia-northeast1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ env.ARTIFACT_REPOSITORY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+
       - name: Push Docker Image to Artifact Registry
         run: |
           echo "Pushing Docker image to Artifact Registry"
